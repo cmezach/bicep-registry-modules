@@ -7,6 +7,10 @@ param name string
 @description('Optional. Location for all resources.')
 param location string = resourceGroup().location
 
+import { managedIdentityAllType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+@description('Optional. The managed identity definition for this resource.')
+param managedIdentities managedIdentityAllType?
+
 @description('Optional. The description of the scheduled query rule.')
 param alertDescription string = ''
 
@@ -99,6 +103,20 @@ var formattedRoleAssignments = [
       : subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleAssignment.roleDefinitionIdOrName))
   })
 ]
+var formattedUserAssignedIdentities = reduce(
+  map((managedIdentities.?userAssignedResourceIds ?? []), (id) => { '${id}': {} }),
+  {},
+  (cur, next) => union(cur, next)
+) // Converts the flat array to an object like { '${id1}': {}, '${id2}': {} }
+
+var identity = !empty(managedIdentities)
+  ? {
+      type: (managedIdentities.?systemAssigned ?? false)
+        ? (!empty(managedIdentities.?userAssignedResourceIds ?? {}) ? 'SystemAssigned,UserAssigned' : 'SystemAssigned')
+        : (!empty(managedIdentities.?userAssignedResourceIds ?? {}) ? 'UserAssigned' : 'None')
+      userAssignedIdentities: !empty(formattedUserAssignedIdentities) ? formattedUserAssignedIdentities : null
+    }
+  : null
 
 #disable-next-line no-deployments-resources
 resource avmTelemetry 'Microsoft.Resources/deployments@2024-03-01' = if (enableTelemetry) {
@@ -122,6 +140,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2024-03-01' = if (enableT
 resource queryRule 'Microsoft.Insights/scheduledQueryRules@2025-01-01-preview' = {
   name: name
   location: location
+  identity: identity
   tags: tags
   kind: kind
   properties: {
