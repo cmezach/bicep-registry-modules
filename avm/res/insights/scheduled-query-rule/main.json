@@ -5,8 +5,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.32.4.45862",
-      "templateHash": "8433672501117405052"
+      "version": "0.34.44.8038",
+      "templateHash": "4604318033417620012"
     },
     "name": "Scheduled Query Rules",
     "description": "This module deploys a Scheduled Query Rule."
@@ -281,7 +281,7 @@
     },
     "queryRule": {
       "type": "Microsoft.Insights/scheduledQueryRules",
-      "apiVersion": "2023-03-15-preview",
+      "apiVersion": "2025-01-01-preview",
       "name": "[parameters('name')]",
       "location": "[parameters('location')]",
       "tags": "[parameters('tags')]",
@@ -299,7 +299,7 @@
         "evaluationFrequency": "[if(and(equals(parameters('kind'), 'LogAlert'), not(empty(parameters('evaluationFrequency')))), parameters('evaluationFrequency'), null())]",
         "muteActionsDuration": "[if(and(equals(parameters('kind'), 'LogAlert'), not(empty(parameters('suppressForMinutes')))), parameters('suppressForMinutes'), null())]",
         "overrideQueryTimeRange": "[if(and(equals(parameters('kind'), 'LogAlert'), not(empty(parameters('queryTimeRange')))), parameters('queryTimeRange'), null())]",
-        "ruleResolveConfiguration": "[if(and(equals(parameters('kind'), 'LogAlert'), not(empty(parameters('ruleResolveConfiguration')))), parameters('ruleResolveConfiguration'), null())]",
+        "resolveConfiguration": "[if(and(equals(parameters('kind'), 'LogAlert'), not(empty(parameters('ruleResolveConfiguration')))), parameters('ruleResolveConfiguration'), null())]",
         "scopes": "[parameters('scopes')]",
         "severity": "[if(equals(parameters('kind'), 'LogAlert'), parameters('severity'), null())]",
         "skipQueryValidation": "[if(equals(parameters('kind'), 'LogAlert'), parameters('skipQueryValidation'), null())]",
@@ -357,7 +357,15 @@
       "metadata": {
         "description": "The location the resource was deployed into."
       },
-      "value": "[reference('queryRule', '2023-03-15-preview', 'full').location]"
+      "value": "[reference('queryRule', '2025-01-01-preview', 'full').location]"
+    },
+    "systemAssignedMIPrincipalId": {
+      "type": "string",
+      "nullable": true,
+      "metadata": {
+        "description": "The principal ID of the user assigned managed identity."
+      },
+      "value": "[tryGet(tryGet(reference('queryRule', '2025-01-01-preview', 'full'), 'identity'), 'principalId')]"
     }
   }
 }

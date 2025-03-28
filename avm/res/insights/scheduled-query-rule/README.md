@@ -15,7 +15,7 @@ This module deploys a Scheduled Query Rule.
 | Resource Type | API Version |
 | :-- | :-- |
 | `Microsoft.Authorization/roleAssignments` | [2022-04-01](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Authorization/2022-04-01/roleAssignments) |
-| `Microsoft.Insights/scheduledQueryRules` | [2023-03-15-preview](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Insights/2023-03-15-preview/scheduledQueryRules) |
+| `Microsoft.Insights/scheduledQueryRules` | [2025-01-01-preview](https://learn.microsoft.com/en-us/azure/templates/Microsoft.Insights/2025-01-01-preview/scheduledQueryRules) |
 
 ## Usage examples
 
@@ -1005,6 +1005,7 @@ List of resource type of the target resource(s) on which the alert is created/up
 | `name` | string | The Name of the created scheduled query rule. |
 | `resourceGroupName` | string | The Resource Group of the created scheduled query rule. |
 | `resourceId` | string | The resource ID of the created scheduled query rule. |
+| `systemAssignedMIPrincipalId` | string | The principal ID of the user assigned managed identity. |
 
 ## Data Collection
 

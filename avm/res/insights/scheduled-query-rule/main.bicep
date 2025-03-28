@@ -119,7 +119,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2024-03-01' = if (enableT
   }
 }
 
-resource queryRule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' = {
+resource queryRule 'Microsoft.Insights/scheduledQueryRules@2025-01-01-preview' = {
   name: name
   location: location
   tags: tags
@@ -137,7 +137,7 @@ resource queryRule 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' =
     evaluationFrequency: (kind == 'LogAlert' && !empty(evaluationFrequency)) ? evaluationFrequency : null
     muteActionsDuration: (kind == 'LogAlert' && !empty(suppressForMinutes)) ? suppressForMinutes : null
     overrideQueryTimeRange: (kind == 'LogAlert' && !empty(queryTimeRange)) ? queryTimeRange : null
-    ruleResolveConfiguration: (kind == 'LogAlert' && !empty(ruleResolveConfiguration)) ? ruleResolveConfiguration : null
+    resolveConfiguration: (kind == 'LogAlert' && !empty(ruleResolveConfiguration)) ? ruleResolveConfiguration : null
     scopes: scopes
     severity: (kind == 'LogAlert') ? severity : null
     skipQueryValidation: (kind == 'LogAlert') ? skipQueryValidation : null
@@ -173,6 +173,9 @@ output resourceGroupName string = resourceGroup().name
 
 @description('The location the resource was deployed into.')
 output location string = queryRule.location
+
+@description('The principal ID of the user assigned managed identity.')
+output systemAssignedMIPrincipalId string? = queryRule.?identity.?principalId
 
 // =============== //
 //   Definitions   //
