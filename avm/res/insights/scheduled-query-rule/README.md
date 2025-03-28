@@ -8,6 +8,7 @@ This module deploys a Scheduled Query Rule.
 - [Usage examples](#Usage-examples)
 - [Parameters](#Parameters)
 - [Outputs](#Outputs)
+- [Cross-referenced modules](#Cross-referenced-modules)
 - [Data Collection](#Data-Collection)
 
 ## Resource Types
@@ -714,6 +715,7 @@ param windowSize = 'PT5M'
 | [`evaluationFrequency`](#parameter-evaluationfrequency) | string | How often the scheduled query rule is evaluated represented in ISO 8601 duration format. Relevant and required only for rules of the kind LogAlert. |
 | [`kind`](#parameter-kind) | string | Indicates the type of scheduled query rule. |
 | [`location`](#parameter-location) | string | Location for all resources. |
+| [`managedIdentities`](#parameter-managedidentities) | object | The managed identity definition for this resource. |
 | [`queryTimeRange`](#parameter-querytimerange) | string | If specified (in ISO 8601 duration format) then overrides the query time range. Relevant only for rules of the kind LogAlert. |
 | [`roleAssignments`](#parameter-roleassignments) | array | Array of role assignments to create. |
 | [`ruleResolveConfiguration`](#parameter-ruleresolveconfiguration) | object | Defines the configuration for resolving fired alerts. Relevant only for rules of the kind LogAlert. |
@@ -829,6 +831,34 @@ Location for all resources.
 - Required: No
 - Type: string
 - Default: `[resourceGroup().location]`
+
+### Parameter: `managedIdentities`
+
+The managed identity definition for this resource.
+
+- Required: No
+- Type: object
+
+**Optional parameters**
+
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| [`systemAssigned`](#parameter-managedidentitiessystemassigned) | bool | Enables system assigned managed identity on the resource. |
+| [`userAssignedResourceIds`](#parameter-managedidentitiesuserassignedresourceids) | array | The resource ID(s) to assign to the resource. Required if a user assigned identity is used for encryption. |
+
+### Parameter: `managedIdentities.systemAssigned`
+
+Enables system assigned managed identity on the resource.
+
+- Required: No
+- Type: bool
+
+### Parameter: `managedIdentities.userAssignedResourceIds`
+
+The resource ID(s) to assign to the resource. Required if a user assigned identity is used for encryption.
+
+- Required: No
+- Type: array
 
 ### Parameter: `queryTimeRange`
 
@@ -1006,6 +1036,14 @@ List of resource type of the target resource(s) on which the alert is created/up
 | `resourceGroupName` | string | The Resource Group of the created scheduled query rule. |
 | `resourceId` | string | The resource ID of the created scheduled query rule. |
 | `systemAssignedMIPrincipalId` | string | The principal ID of the user assigned managed identity. |
+
+## Cross-referenced modules
+
+This section gives you an overview of all local-referenced module files (i.e., other modules that are referenced in this module) and all remote-referenced files (i.e., Bicep modules that are referenced from a Bicep Registry or Template Specs).
+
+| Reference | Type |
+| :-- | :-- |
+| `br/public:avm/utl/types/avm-common-types:0.5.1` | Remote reference |
 
 ## Data Collection
 

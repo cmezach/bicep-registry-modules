@@ -112,7 +112,7 @@ var formattedUserAssignedIdentities = reduce(
 var identity = !empty(managedIdentities)
   ? {
       type: (managedIdentities.?systemAssigned ?? false)
-        ? (!empty(managedIdentities.?userAssignedResourceIds ?? {}) ? 'SystemAssigned,UserAssigned' : 'SystemAssigned')
+        ? (!empty(managedIdentities.?userAssignedResourceIds ?? {}) ? 'SystemAssigned' : 'SystemAssigned')
         : (!empty(managedIdentities.?userAssignedResourceIds ?? {}) ? 'UserAssigned' : 'None')
       userAssignedIdentities: !empty(formattedUserAssignedIdentities) ? formattedUserAssignedIdentities : null
     }
